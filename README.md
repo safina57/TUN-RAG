@@ -1,6 +1,8 @@
 # 🇹🇳 Tunisia Constitution Chatbot
 
-A small RAG-based chatbot designed to help you explore and interact with the Tunisian Constitution.
+Explore and interact with the Tunisian Constitution using this RAG-based chatbot. This project leverages modern AI techniques to provide an intuitive way to navigate constitutional content.
+
+👉 [Test the chatbot here](https://safina57-tun-rag.hf.space)
 
 ## 🚀 Getting Started
 
