@@ -73,6 +73,7 @@ def get_response(message: str) -> str:
     try:
         ws = websocket.create_connection("ws://localhost:8000/ws")
         ws.send(message)
+        print("Message sent, waiting for response...")
         response = ws.recv()
         ws.close()
         return response

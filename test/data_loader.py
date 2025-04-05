@@ -31,7 +31,7 @@ print(f'length of the page: {len(docs[0].page_content)}')
 
 
 langchain_text_splitters = SentenceTransformersTokenTextSplitter(
-    chunk_overlap=100,
+    chunk_overlap=300,
 )
 
 docs = langchain_text_splitters.split_documents(docs)

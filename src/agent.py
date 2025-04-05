@@ -5,12 +5,23 @@ from langchain_groq import ChatGroq
 from langchain_chroma import Chroma
 from langchain.chains import RetrievalQA
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain.prompts import ChatPromptTemplate
 
 # Load .env from parent directory
 load_dotenv()
 
-# Create system prompt for the refine chain
-system_prompt = hub.pull("rlm/rag-prompt-llama3")
+# Pull the original prompt
+base_prompt = hub.pull("rlm/rag-prompt-llama3")
+
+# Add your custom instruction
+custom_instruction = (
+    "You are a helpful assistant specialized in the Tunisian Constitution. "
+)
+
+modified_prompt = ChatPromptTemplate.from_messages(
+        [("system", custom_instruction)] + base_prompt.messages
+    )
+
 
 # Set up ChromaDB Vector Store
 embedding_function = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
@@ -19,7 +30,9 @@ vector_store = Chroma(
     embedding_function=embedding_function,
     persist_directory="./chroma_langchain_db",
 )
-retriever = vector_store.as_retriever(search_type="mmr", k=2, fetch_k=5)
+retriever = vector_store.as_retriever(
+        search_kwargs={'k': 5}
+)
 
 # Groq LLM
 llm = ChatGroq(
@@ -33,7 +46,7 @@ qa_chain = RetrievalQA.from_chain_type(
     llm=llm,
     retriever=retriever,
     return_source_documents=True,
-    chain_type_kwargs={"prompt": system_prompt}
+    chain_type_kwargs={"prompt": modified_prompt}
 )
 
 # Function to ask a question

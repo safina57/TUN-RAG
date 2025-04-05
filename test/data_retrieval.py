@@ -10,7 +10,7 @@ vector_store = Chroma(
     persist_directory="./chroma_langchain_db",
 )
 
-query = "how should the president be elected?"
+query = "waht does the constitution say about education?"
 k = 3
 fetch_k = 5 
 results = vector_store.similarity_search(
